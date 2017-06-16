@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Prez</title>
+
+    <meta name="description" content="-- DESCRIPTION HERE --">
+    <meta name="author" content="clement">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="css/highlight/styles/zenburn.css" id="highlight-theme">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <link rel="stylesheet" href="css/custom.css">
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides"><section id="hello" class="slide" data-has-notes="false">
+<h2>Z-Index: you&#39;re doing it wrong</h2>
+</section>
+
+<section id="chapter-example" class="chapter">
+<section id="example-question" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red">
+        <span class="ex-index">10</span>
+      </div>
+      <div class="ex ex-blue">
+        <span class="ex-index">1</span>
+        <div class="ex ex-white">
+          <span class="ex-index">?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+}
+
+.ex-blue {
+  z-index: 1;
+}
+
+.ex-white {
+  z-index: <mark>???</mark>;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+
+<section id="example-answer" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red">
+        <span class="ex-index">10</span>
+      </div>
+      <div class="ex ex-blue">
+        <span class="ex-index">1</span>
+        <div class="ex ex-white">
+          <span class="ex-index">1000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+}
+
+.ex-blue {
+  z-index: 1;
+}
+
+.ex-white {
+  z-index: <mark>1000</mark>;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+
+<section id="example-wtf" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red">
+        <span class="ex-index">10</span>
+      </div>
+      <div class="ex ex-blue" style="z-index: auto;">
+        <span class="ex-index"></span>
+        <div class="ex ex-white">
+          <span class="ex-index">1000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+}
+
+.ex-blue {
+  //z-index: 1;
+}
+
+.ex-white {
+  z-index: 1000;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+</section>
+
+<section id="chapter-position" class="chapter">
+<section id="position-initial" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red" style="position: initial; text-align: right;">
+        <span class="ex-index" style="position: initial;">10</span>
+      </div>
+      <div class="ex ex-blue">
+        <span class="ex-index">1</span>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+  position: initial;
+}
+
+.ex-blue {
+  z-index: 1;
+  position: relative;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+
+<section id="position-relative" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red" style="position: relative; text-align: right;">
+        <span class="ex-index" style="position: initial;">10</span>
+      </div>
+      <div class="ex ex-blue">
+        <span class="ex-index">1</span>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+  position: <mark>relative</mark>;
+}
+
+.ex-blue {
+  z-index: 1;
+  position: relative;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+</section>
+
+<section id="chapter-stack" class="chapter">
+<section id="stack-solution" class="slide" data-has-notes="false">
+<h2>The solution</h2><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ex ex-red"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ex ex-blue"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ex ex-white"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</section>
+
+<section id="stack-explanation" class="slide" data-has-notes="false">
+<div class="sol-container">
+
+  <div class="sol-context sol-context-red">
+    <span class="sol-index">10</span>
+    <div class="sol sol-red"></div>
+  </div>
+  <div class="sol-context sol-context-blue">
+    <span class="sol-index">1</span>
+    <div class="sol sol-white"></div>
+    <div class="sol sol-blue"></div>
+  </div>
+
+</div>
+<style>
+.sol {
+  width: 60%;
+  height: 10px;
+}
+
+.sol-red {
+  background: red;
+}
+
+.sol-white {
+  background: white;
+  margin-left: 40% !important;
+}
+
+.sol-blue {
+  background: blue;
+  margin-top: 80px !important;
+  margin-left: 20% !important;
+}
+
+.sol-context {
+  height: 100px;
+  padding: 50px !important;
+  position: relative;
+}
+
+.sol-index {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+.sol-context-red {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.sol-context-blue {
+  background-color: rgba(0, 0, 255, 0.2);
+}
+</style>
+</section>
+
+<section id="stack-fix" class="slide" data-has-notes="false">
+<div class="sol-container">
+
+  <div class="sol-context sol-context-red">
+    <span class="sol-index">10</span>
+    <div class="sol sol-red"></div>
+  </div>
+  <div class="sol-context sol-context-white">
+    <span class="sol-index">5</span>
+    <div class="sol sol-white"></div>
+  </div>
+  <div class="sol-context sol-context-blue">
+    <span class="sol-index">1</span>
+    <div class="sol sol-blue"></div>
+  </div>
+
+</div>
+<style>
+.sol {
+  width: 60%;
+  height: 10px;
+}
+
+.sol-red {
+  background: red;
+}
+
+.sol-white {
+  background: white;
+  margin-left: 40% !important;
+}
+
+.sol-blue {
+  background: blue;
+  margin-top: 80px !important;
+  margin-left: 20% !important;
+}
+
+.sol-context {
+  height: 100px;
+  padding: 50px !important;
+  position: relative;
+}
+
+.sol-index {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+.sol-context-red {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.sol-context-blue {
+  background-color: rgba(0, 0, 255, 0.2);
+}
+
+.sol-context-white {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+</style>
+</section>
+
+<section id="stack-fix-dom" class="slide" data-has-notes="false">
+<h2>The DOM</h2><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ex ex-red"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ex ex-blue"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"ex ex-white"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</section>
+</section>
+
+<section id="chapter-default-value" class="chapter">
+<section id="default-value-default" class="slide" data-has-notes="false">
+<h2>What is the default value of <code>z-index</code>?</h2>
+</section>
+
+<section id="default-value-another-problem" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red">
+        <span class="ex-index">10</span>
+      </div>
+      <div class="ex ex-blue" style="z-index: auto;">
+        <span class="ex-index">?</span>
+        <div class="ex ex-white">
+          <span class="ex-index">1000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+}
+
+.ex-blue {
+  //z-index: 1;
+}
+
+.ex-white {
+  z-index: 1000;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+
+<section id="default-value-not-0" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red">
+        <span class="ex-index">10</span>
+      </div>
+      <div class="ex ex-blue" style="z-index: 0;">
+        <span class="ex-index">0</span>
+        <div class="ex ex-white">
+          <span class="ex-index">1000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+}
+
+.ex-blue {
+  z-index: 0;
+}
+
+.ex-white {
+  z-index: 1000;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+
+<section id="default-value-not-negative" class="slide" data-has-notes="false">
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red">
+        <span class="ex-index">10</span>
+      </div>
+      <div class="ex ex-blue" style="z-index: -1;">
+        <span class="ex-index">-1</span>
+        <div class="ex ex-white">
+          <span class="ex-index">1000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+}
+
+.ex-blue {
+  z-index: -1;
+}
+
+.ex-white {
+  z-index: 1000;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+
+<section id="default-value-unset" class="slide" data-has-notes="false">
+<h2>unset</h2>
+<div class="grid">
+  <div class="grid-half">
+    <div class="ex-container">
+      <div class="ex ex-red">
+        <span class="ex-index">10</span>
+      </div>
+      <div class="ex ex-blue" style="z-index: unset;">
+        <span class="ex-index"></span>
+        <div class="ex ex-white">
+          <span class="ex-index">1000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-half">
+    <pre><code data-trim>
+.ex-red {
+  z-index: 10;
+}
+
+.ex-blue {
+  z-index: unset;
+}
+
+.ex-white {
+  z-index: 1000;
+}
+    </code></pre>
+  </div>
+</div>
+</section>
+</section>
+
+<section id="chapter-why" class="chapter">
+<section id="why-why" class="slide" data-has-notes="false">
+<h2>Why do I care?</h2>
+</section>
+
+<section id="why-boo-tstrap" class="slide" data-has-notes="false">
+<p><img src="images/boo-tstrap.png" alt=""></p>
+</section>
+</section></div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: Reveal.getQueryHash().transition || 'slide', // none/fade/slide/convex/concave/zoom
+
+      // Optional reveal.js plugins
+      dependencies: [
+        //{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        //{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        //{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true },
+        { src: 'plugin/notes/notes.js', async: true }
+      ]
+    });
+    </script>
+
+    <script src="js/dynamic-theme.js"></script><script src="js/custom.js"></script>
+
+  </body>
+</html>

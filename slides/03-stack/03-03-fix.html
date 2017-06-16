@@ -1,0 +1,61 @@
+<div class="sol-container">
+
+  <div class="sol-context sol-context-red">
+    <span class="sol-index">10</span>
+    <div class="sol sol-red"></div>
+  </div>
+  <div class="sol-context sol-context-white">
+    <span class="sol-index">5</span>
+    <div class="sol sol-white"></div>
+  </div>
+  <div class="sol-context sol-context-blue">
+    <span class="sol-index">1</span>
+    <div class="sol sol-blue"></div>
+  </div>
+
+</div>
+<style>
+.sol {
+  width: 60%;
+  height: 10px;
+}
+
+.sol-red {
+  background: red;
+}
+
+.sol-white {
+  background: white;
+  margin-left: 40% !important;
+}
+
+.sol-blue {
+  background: blue;
+  margin-top: 80px !important;
+  margin-left: 20% !important;
+}
+
+.sol-context {
+  height: 100px;
+  padding: 50px !important;
+  position: relative;
+}
+
+.sol-index {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+.sol-context-red {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.sol-context-blue {
+  background-color: rgba(0, 0, 255, 0.2);
+}
+
+.sol-context-white {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+</style>
